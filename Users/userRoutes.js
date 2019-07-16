@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
         const users = await userDB.getUsers();
 
         if(Array.isArray(users))
-            return res.status(200).json({ users });
+            return res.status(200).json( users );
         else
             return res.status(400).json({ message: "No users found." });
 

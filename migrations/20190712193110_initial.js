@@ -2,9 +2,9 @@
 exports.up = async function(knex) {
   await knex.schema.createTable('users', tbl => {
         tbl.increments('id');
-        tbl.string('email').unique();
-        tbl.string('firstName');
-        tbl.string('lastName');
+        tbl.string('email').unique().notNullable();
+        tbl.string('firstName').notNullable();
+        tbl.string('lastName').notNullable();
         tbl.date('birthday');
         tbl.string('phone');
         tbl.string('location');

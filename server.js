@@ -8,8 +8,11 @@ const server = express();
 
 server.use(logger('dev'));
 server.use(helmet());
+server.use(express.json());
 
 const keys = require('./keys/keys');
+
+const userRoutes = require('./Users/userRoutes');
 
 const pgConfig = {
     user: keys.pgUserName,
@@ -32,5 +35,7 @@ server.get('/', async (req, res) => {
 
     return res.status(200).send('<h1>Welcome to the server</h1>');
 });
+
+server.use('/user', userRoutes);
 
 module.exports = server;

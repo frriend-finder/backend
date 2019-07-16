@@ -140,3 +140,33 @@ Returns all interests as an array of objects
         "name": "music"
       }
     ]
+    
+### GET interests/:id
+
+Returns an array containing the name of the interest with the given id.
+
+    [
+        "movies"
+    ]
+    
+### POST interests/
+
+Adds a new interest to the database. An interest object with a name field should be sent in the body of the request.
+
+    {
+        "name": "travel"
+    }
+    
+### GET interests/user/:user_id
+
+Returns an array of interests as id numbers for the user with user_id.
+
+    [
+        1,
+        3,
+        5
+    ]
+    
+### GET interests/:interest_id/users
+
+Returns an array of users as user ids for the interest.

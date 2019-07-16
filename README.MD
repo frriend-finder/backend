@@ -170,3 +170,9 @@ Returns an array of interests as id numbers for the user with user_id.
 ### GET interests/:interest_id/users
 
 Returns an array of users as user ids for the interest.
+
+    [
+        1, 
+        3, 
+        9
+    ]

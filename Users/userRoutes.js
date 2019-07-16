@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
         const user = await userDB.getUserByID(id);
 
         if(user && (Object.keys(user).length > 0))
-            return res.status(200).json({ user });
+            return res.status(200).json( user );
         else
             return res.status(404).json({ message: "User not found" });
     } catch(err) {

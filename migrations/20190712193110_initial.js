@@ -5,12 +5,14 @@ exports.up = async function(knex) {
         tbl.string('email').unique().notNullable();
         tbl.string('firstName').notNullable();
         tbl.string('lastName').notNullable();
-        tbl.date('birthday');
+        tbl.integer('age');
         tbl.string('phone');
-        tbl.string('location');
+        tbl.string('address');
+        tbl.string('city');
+        tbl.string('state');
+        tbl.string('zip');
         tbl.string('catchPhrase');
         tbl.string('gender');
-        tbl.string('sexualOrientation');
         tbl.string('imageUrl');
   });
 

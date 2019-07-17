@@ -52,7 +52,7 @@ exports.up = async function(knex) {
 
 exports.down = async function(knex) {
     await knex.schema.dropTableIfExists('user_interests');
-    await knex.schema.dropTableIfExists('users');
     await knex.schema.dropTableIfExists('interests');
     await knex.schema.dropTableIfExists('auth');
+    await knex.schema.dropTableIfExists('users');
 };

@@ -38,10 +38,9 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const input = req.body;
 
-    console.log("add user", req.body);
-
     try {
         const id = await userDB.addUser(input);
+
 
         if(id > 0) {
             const user = await userDB.getUserByID(id);
@@ -59,8 +58,6 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     let { id } = req.params;
     let result;
-
-    console.log(req.params);
 
     if (!id) {
         return res.status(400).json({ message: "An address must be provided"});

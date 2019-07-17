@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+require('dotenv');
 
 const { Pool, Client } = require('pg');
 

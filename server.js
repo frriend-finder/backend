@@ -10,8 +10,6 @@ server.use(logger('dev'));
 server.use(helmet());
 server.use(express.json());
 
-const keys = require('./keys/keys');
-
 const userRoutes = require('./Users/userRoutes');
 const interestRoutes = require('./Interests/interestsRoutes');
 

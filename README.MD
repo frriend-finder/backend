@@ -176,3 +176,12 @@ Returns an array of users as user ids for the interest.
         3, 
         9
     ]
+    
+### POST interests/user
+
+Adds an interest to a user. The user and interest ids should be sent as an object in the body of the request
+
+    {
+        "user": 3,
+        "interest": 7
+    }

@@ -44,7 +44,8 @@ exports.up = async function(knex) {
           .inTable('users')
           .notNullable()
           .unique();
-      tbl.date('startTime')
+      tbl.timestamp('created_at')
+          .defaultTo(knex.fn.now())
           .notNullable();
   })
 };

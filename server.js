@@ -12,6 +12,7 @@ server.use(express.json());
 
 const userRoutes = require('./Users/userRoutes');
 const interestRoutes = require('./Interests/interestsRoutes');
+const authRoutes = require('./Auth/authRoutes');
 
 
 server.get('/', async (req, res) => {
@@ -19,8 +20,9 @@ server.get('/', async (req, res) => {
     return res.status(200).send('<h1>Welcome to the server</h1>');
 });
 
-server.use('/users', userRoutes);
+server.use('/user', userRoutes);
 server.use('/interests', interestRoutes);
+server.use('/auth', authRoutes);
 
 
 module.exports = server;

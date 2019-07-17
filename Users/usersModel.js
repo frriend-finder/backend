@@ -4,8 +4,10 @@ const getUsers = () => {
     return db('users');
 }
 
-const getUserByEmail = (email) => {
-    return db('users').where({ email });
+const getUserByEmail = async (email) => {
+    const id = await db('users').pluck('id').where({ email });
+
+    return id[0];
 }
 
 const getUserByID = async (id) => {

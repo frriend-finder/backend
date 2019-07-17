@@ -3,7 +3,7 @@ const knexConfig = require('../knexfile');
 let knexMode;
 
 // keys.js - determine correct credentials
-if (process.env.NODE_ENV === "production") {
+if (process.env.DB_ENV === "production") {
     // in prod
     knexMode = "production"
 } else {

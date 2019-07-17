@@ -2,9 +2,9 @@
 
 ## Endpoints
 
-### user/ endpoints
+### users/ endpoints
 
-### GET user/
+### GET users/
 
 GET  user without a parameter will return all users as an array of objects
 
@@ -71,13 +71,13 @@ GET  user without a parameter will return all users as an array of objects
       }
     ]
 
-### GET user/:id
+### GET users/:id
 
 GET user with an id will get a specific user
 
 i.e. https://myurl.com/user/14 will return the user with an id 14
 
-### POST user/
+### POST users/
 
 Add a new user to the database. Send a user object in the body of the request
 
@@ -96,7 +96,7 @@ Add a new user to the database. Send a user object in the body of the request
       "imageUrl": "https://image.shutterstock.com/image-photo/portrait-mixed-race-man-600w-1216778014.jpg"
     }
 
-### PUT user/:id
+### PUT users/:id
 
 Update an existing user's data. Any data can be updated, but the id and email need to remain unique.
 Only need to send the fields that need to be updated
@@ -106,7 +106,7 @@ Only need to send the fields that need to be updated
       "age": 12
     }
     
-### DELETE user/:id
+### DELETE users/:id
 
 Delete the specified user. This cannot be undone.
 

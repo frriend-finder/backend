@@ -13,7 +13,7 @@ server.use(express.json());
 const keys = require('./keys/keys');
 
 const userRoutes = require('./Users/userRoutes');
-const interestRoutes = require('./Interests/interestsRoute');
+const interestRoutes = require('./Interests/interestsRoutes');
 
 
 server.get('/', async (req, res) => {
@@ -21,7 +21,7 @@ server.get('/', async (req, res) => {
     return res.status(200).send('<h1>Welcome to the server</h1>');
 });
 
-server.use('/user', userRoutes);
+server.use('/users', userRoutes);
 server.use('/interests', interestRoutes);
 
 

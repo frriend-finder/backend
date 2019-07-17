@@ -42,6 +42,9 @@ exports.up = async function(knex) {
           .unsigned()
           .references('id')
           .inTable('users')
+          .notNullable()
+          .unique();
+      tbl.date('startTime')
           .notNullable();
   })
 };

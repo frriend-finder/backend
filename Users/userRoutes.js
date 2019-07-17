@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
         const users = await userDB.getUsers();
 
         if(Array.isArray(users))
-            return res.status(200).json({ users });
+            return res.status(200).json( users );
         else
             return res.status(400).json({ message: "No users found." });
 
@@ -19,22 +19,6 @@ router.get('/', async (req, res) => {
 
 });
 
-// router.get('/:email', async (req, res) => {
-//     const { email } = req.params;
-//
-//     try {
-//         const user = await userDB.getUserByEmail(email);
-//
-//         if(user && (Object.keys(user).length > 0))
-//             return res.status(200).json({ user });
-//         else
-//             return res.status(404).json({ message: "User not found" });
-//     } catch(err) {
-//         console.log(err);
-//         return res.status(500).json({ message: "Something went wrong." });
-//     }
-// });
-
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -42,7 +26,7 @@ router.get('/:id', async (req, res) => {
         const user = await userDB.getUserByID(id);
 
         if(user && (Object.keys(user).length > 0))
-            return res.status(200).json({ user });
+            return res.status(200).json( user );
         else
             return res.status(404).json({ message: "User not found" });
     } catch(err) {

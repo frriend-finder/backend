@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const { Pool, Client } = require('pg');
 
@@ -9,6 +10,7 @@ const server = express();
 server.use(logger('dev'));
 server.use(helmet());
 server.use(express.json());
+server.use(cors());
 
 const userRoutes = require('./Users/userRoutes');
 const interestRoutes = require('./Interests/interestsRoutes');

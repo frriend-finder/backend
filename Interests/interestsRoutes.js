@@ -77,4 +77,21 @@ router.get('/:interest_id/users', async (req, res) => {
     }
 });
 
+router.post('/user/', async (req, res) => {
+    const { interest, user } = req.body;
+
+    try
+    {
+        const result = await interestDB.addInterestToUser(user, interest);
+
+        if (result)
+            return res.status(200).json({ message: "Interest added." });
+        else
+            return res.status(400).json({ message: "Unable to add interest." });
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json({ message: "Something went wrong." });
+    }
+});
+
 module.exports = router;

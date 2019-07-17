@@ -36,10 +36,17 @@ const getUsersWithInterest = async interest_id => {
     return users;
 }
 
+const addInterestToUser = async (user_id, interest_id) => {
+    const result = await db('user_interests').insert({ user_id, interest_id });
+
+    return result;
+}
+
 module.exports = {
     getInterests,
     getInterest,
     addInterest,
     getInterestsOf,
-    getUsersWithInterest
+    getUsersWithInterest,
+    addInterestToUser
 }

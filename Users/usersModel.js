@@ -4,12 +4,23 @@ const getUsers = () => {
     return db('users');
 }
 
-const getUserByEmail = (email) => {
-    return db('users').where({ email });
+const getUserByEmail = async (email) => {
+    const id = await db('users').pluck('id').where({ email });
+
+    return id[0];
 }
 
-const getUserByID = (id) => {
-    return db('users').where('id', Number(id)).first();
+const getUserByID = async (id) => {
+    const user = await db('users').where('id', Number(id)).first();
+    let interests = await db('user_interests').pluck('interest_id').where( 'user_id', id );
+
+    console.log('interests before', interests);
+
+    interests = await db('interests').pluck('name').whereIn('id', interests);
+
+    console.log('interests after', interests);
+
+    return ({ ...user, interests });
 }
 
 const addUser = async user => {

@@ -35,7 +35,7 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable('auth', tbl => {
-      tbl.integer('code')
+      tbl.string('code')
           .unsigned()
           .notNullable();
       tbl.integer('user_id')

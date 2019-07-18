@@ -16,9 +16,9 @@ exports.seed = function(knex) {
           {user_id: 3, interest_id: 3},
           {user_id: 3, interest_id: 4},
           {user_id: 3, interest_id: 5},
-          {user_id: 9, interest_id: 1},
-          {user_id: 9, interest_id: 2},
-          {user_id: 9, interest_id: 3}
+          {user_id: 4, interest_id: 1},
+          {user_id: 4, interest_id: 2},
+          {user_id: 4, interest_id: 3}
       ]);
     });
 };

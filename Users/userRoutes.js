@@ -38,16 +38,19 @@ router.get('/:id', requireLogin, async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const input = req.body;
+    let baseUser = req.body;
+    let { interests } = req.body;
+
+    delete baseUser["interests"];
 
     try {
-        const id = await userDB.addUser(input);
+        const id = await userDB.addUser(baseUser, interests);
 
 
         if(id > 0) {
             const user = await userDB.getUserByID(id);
 
-            return res.status(200).json({user});
+            return res.status(200).json(user);
         }
         else
             return res.status(404).json({ message: "Could not add user." });

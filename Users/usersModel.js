@@ -19,9 +19,15 @@ const getUserByID = async (id) => {
     return ({ ...user, interests });
 }
 
-const addUser = async user => {
+const addUser = async (user, interests) => {
     try {
         const id = await db('users').insert(user).returning('id');
+
+        //console.log("id", id);
+
+        interests.forEach(async interest => {
+            await db('user_interests').insert({ user_id: id[0], interest_id: interest});
+        });
 
         return id[0];
     } catch(err) {

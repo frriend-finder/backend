@@ -79,12 +79,12 @@ router.post('/verify', async (req, res) => {
             const validCode = bcrypt.compareSync(code, await authDB.getCode(user_id));
 
             if (validCode) {
-                return res.status(200).json({token: tokenMaker()});
+                return res.status(200).json({ token: tokenMaker(), user_id });
             } else {
-                return res.status(404).json({message: "Code is invalid or expired."});
+                return res.status(404).json({ message: "Code is invalid or expired." });
             }
         } else {
-            return res.status(404).json({message: "Code is invalid or expired."});
+            return res.status(404).json({ message: "Code is invalid or expired." });
         }
     } catch(err) {
         console.log(err);

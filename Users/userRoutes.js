@@ -1,9 +1,11 @@
 const express = require('express');
 
 const router = express.Router();
-const userDB = require('./usersModel');
 
-router.get('/', async (req, res) => {
+const userDB = require('./usersModel');
+const { requireLogin } = require('../helpers/authHelpers');
+
+router.get('/', requireLogin, async (req, res) => {
     try {
         const users = await userDB.getUsers();
 
@@ -19,7 +21,7 @@ router.get('/', async (req, res) => {
 
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', requireLogin, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -36,16 +38,19 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const input = req.body;
+    let baseUser = req.body;
+    let { interests } = req.body;
+
+    delete baseUser["interests"];
 
     try {
-        const id = await userDB.addUser(input);
+        const id = await userDB.addUser(baseUser, interests);
 
 
         if(id > 0) {
             const user = await userDB.getUserByID(id);
 
-            return res.status(200).json({user});
+            return res.status(200).json(user);
         }
         else
             return res.status(404).json({ message: "Could not add user." });
@@ -55,7 +60,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireLogin, async (req, res) => {
     let { id } = req.params;
     let result;
 
@@ -77,7 +82,7 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', requireLogin, async (req, res) => {
     let { id } = req.params;
     const user = req.body;
 

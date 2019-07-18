@@ -4,10 +4,8 @@ const keys = require('./keys/keys');
 module.exports = {
 
   development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './data/friends.sqlite3'
-    },
+    client: 'pg',
+    connection: keys.pgDevUrl,
     migrations: {
       directory: './migrations'
     },

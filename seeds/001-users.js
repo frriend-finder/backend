@@ -6,7 +6,6 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('users').insert([
           {
-              id:9,
               firstName: "Jack",
               lastName:"Black",
               age:46,
@@ -21,7 +20,6 @@ exports.seed = function(knex) {
               zip:"12547",
           },
           {
-              id:1,
               firstName: "John",
               lastName:"Smith",
               age:35,
@@ -36,7 +34,6 @@ exports.seed = function(knex) {
               zip:"77777",
           },
           {
-              id:2,
               firstName: "Maria",
               lastName:"Valentine",
               age:27,
@@ -51,7 +48,6 @@ exports.seed = function(knex) {
               zip:"71234",
           },
           {
-              id:3,
               firstName: "Mark",
               lastName:"White",
               age:21,

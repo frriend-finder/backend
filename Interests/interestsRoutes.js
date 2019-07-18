@@ -3,7 +3,9 @@ const express = require('express');
 const router = express.Router();
 const interestDB = require('./interestsModel');
 
-router.get('/', async (req, res) => {
+const { requireLogin } = require('../helpers/authHelpers');
+
+router.get('/', requireLogin, async (req, res) => {
     try {
         const interests = await interestDB.getInterests();
 
@@ -17,7 +19,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', requireLogin, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -33,7 +35,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', requireLogin, async (req, res) => {
    const interest = req.body;
 
    try {
@@ -49,7 +51,7 @@ router.post('/', async (req, res) => {
    }
 });
 
-router.get('/user/:user_id', async (req, res) => {
+router.get('/user/:user_id', requireLogin, async (req, res) => {
     const { user_id } = req.params;
 
     try
@@ -63,7 +65,7 @@ router.get('/user/:user_id', async (req, res) => {
     }
 });
 
-router.get('/:interest_id/users', async (req, res) => {
+router.get('/:interest_id/users', requireLogin, async (req, res) => {
     const { interest_id } = req.params;
 
     try
@@ -77,7 +79,7 @@ router.get('/:interest_id/users', async (req, res) => {
     }
 });
 
-router.post('/user/', async (req, res) => {
+router.post('/user/', requireLogin, async (req, res) => {
     const { interest, user } = req.body;
 
     try

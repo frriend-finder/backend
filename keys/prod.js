@@ -1,5 +1,6 @@
 module.exports = {
     pgConnectionUrl: process.env.PG_CONNECTION_URL,
+    pgDevUrl: process.env.PG_DEV_URL,
     secretKey: process.env.SECRET_KEY,
     gmailName: process.env.GMAIL_NAME,
     gmailPW: process.env.GMAIL_PW,

@@ -14,6 +14,7 @@ server.use(cors());
 const userRoutes = require('./Users/userRoutes');
 const interestRoutes = require('./Interests/interestsRoutes');
 const authRoutes = require('./Auth/authRoutes');
+const friendsRoutes = require('./Friends/friendsRoutes');
 
 
 server.get('/', async (req, res) => {
@@ -24,6 +25,7 @@ server.get('/', async (req, res) => {
 server.use('/user', userRoutes);
 server.use('/interests', interestRoutes);
 server.use('/auth', authRoutes);
+server.use('/friends', friendsRoutes);
 
 
 module.exports = server;

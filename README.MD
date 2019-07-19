@@ -185,3 +185,57 @@ Adds an interest to a user. The user and interest ids should be sent as an objec
         "user": 3,
         "interest": 7
     }
+    
+***
+### friends/ endpoints
+***
+
+### GET friends/:id
+
+Returns an array of friends for the user with :id
+
+    [
+        1,
+        3
+    ]
+    
+### POST friends/
+
+Add a friend to a user by sending the user's id and the friend's id as an object.
+
+    {
+        "user": 3,
+        "friend": 2
+    }
+    
+***
+ ### auth/ endpoints
+ ***
+ 
+ ### POST auth/send
+ 
+ Send a one time password to the user. The user's email address should be send in the body of the request. 
+ 
+ Returns a status of 200 if the code is sent successfully. Returns 404 if the user does not exist in the database.
+ 
+    {
+        "email": "email@email.com"
+    }
+    
+ # POST auth/verify
+ 
+ Verify the one time password the user provides. Email and code should be sent in the body of the request. If authentication is successful it returns status 200 and an object containing a jsonwebtoken and the user's id.
+ 
+#### input
+
+    {
+        "email": "email@email.com",
+        "code": 1234
+    }
+    
+#### output
+
+    {
+        "token": "<token>",
+        "user_id": 4
+    }

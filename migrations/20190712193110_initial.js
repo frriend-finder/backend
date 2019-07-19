@@ -47,7 +47,7 @@ exports.up = async function(knex) {
       tbl.timestamp('created_at')
           .defaultTo(knex.fn.now())
           .notNullable();
-  })
+  });
 };
 
 exports.down = async function(knex) {

@@ -1,8 +1,8 @@
 # Backend for FriendFinder App
 
-## Endpoints
-
+***
 ### users/ endpoints
+***
 
 ### GET users/
 
@@ -111,8 +111,8 @@ Only need to send the fields that need to be updated
 Delete the specified user. This cannot be undone.
 
 ***
-
 ### interests/ endpoint
+***
 
 ### GET interests/
 

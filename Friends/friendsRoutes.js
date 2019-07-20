@@ -37,5 +37,22 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.delete('/', async(req, res) => {
+    const { user, friend } = req.body;
+
+    try {
+        const result = await friendsDB.removeFriend(user, friend);
+
+        if(result) {
+            res.status(200).json({ message: "Friend removed." });
+        } else {
+            res.status(404).json({ message: "User is not friends with them." });
+        }
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({ message: "Could not remove friend." });
+    }
+});
+
 
 module.exports = router;

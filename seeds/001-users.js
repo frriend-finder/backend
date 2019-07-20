@@ -18,6 +18,7 @@ exports.seed = function(knex) {
               city: "Dallas ",
               state:"Texas",
               zip:"12547",
+              interests: [1, 3, 6]
           },
           {
               firstName: "John",
@@ -32,6 +33,7 @@ exports.seed = function(knex) {
               city: "123 New York St",
               state:"New York",
               zip:"77777",
+              interests: [1, 3, 6]
           },
           {
               firstName: "Maria",
@@ -46,6 +48,7 @@ exports.seed = function(knex) {
               city: "Boston",
               state:"Massachusetts",
               zip:"71234",
+              interests: [1, 3, 6]
           },
           {
               firstName: "Mark",
@@ -60,6 +63,7 @@ exports.seed = function(knex) {
               city: "San Fansico",
               state:"California",
               zip:"45451",
+              interests: [1, 3, 6]
           }
       ]);
     });

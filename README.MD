@@ -1,10 +1,10 @@
 # Backend for FriendFinder App
 
 ***
-### users/ endpoints
+### user/ endpoints
 ***
 
-### GET users/
+### GET user/
 
 GET  user without a parameter will return all users as an array of objects
 
@@ -71,13 +71,13 @@ GET  user without a parameter will return all users as an array of objects
       }
     ]
 
-### GET users/:id
+### GET user/:id
 
 GET user with an id will get a specific user
 
 i.e. https://myurl.com/user/14 will return the user with an id 14
 
-### POST users/
+### POST user/
 
 Add a new user to the database. Send a user object in the body of the request
 
@@ -96,7 +96,7 @@ Add a new user to the database. Send a user object in the body of the request
       "imageUrl": "https://image.shutterstock.com/image-photo/portrait-mixed-race-man-600w-1216778014.jpg"
     }
 
-### PUT users/:id
+### PUT user/:id
 
 Update an existing user's data. Any data can be updated, but the id and email need to remain unique.
 Only need to send the fields that need to be updated
@@ -106,7 +106,7 @@ Only need to send the fields that need to be updated
       "age": 12
     }
     
-### DELETE users/:id
+### DELETE user/:id
 
 Delete the specified user. This cannot be undone.
 
@@ -222,7 +222,7 @@ Add a friend to a user by sending the user's id and the friend's id as an object
         "email": "email@email.com"
     }
     
- # POST auth/verify
+ ### POST auth/verify
  
  Verify the one time password the user provides. Email and code should be sent in the body of the request. If authentication is successful it returns status 200 and an object containing a jsonwebtoken and the user's id.
  

@@ -20,10 +20,11 @@ const hasCode = async user_id => {
     console.log('checking for code...', user_id);
 
     try {
-        const timestamp = await db('auth').pluck('created_at').where({ user_id });
+        let timestamp = await db('auth').pluck('created_at').where({ user_id });
         const currentTime = new Date().getTime();
 
-        console.log("timestamp", timestamp);
+        timestamp = new Date(timestamp).getTime();
+        console.log("timestamp", timestamp, currentTime, currentTime - timestamp, expTime);
 
         if(timestamp === undefined) return false;
         if(currentTime - timestamp >= expTime) return false;

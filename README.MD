@@ -1,6 +1,21 @@
 # Backend for FriendFinder App
 
 ***
+Environmental variables
+***
+| variablein code | .env variable                 | purpose |
+|-----------------|-------------------------------|---------|
+| pgConnectionUrl | process.env.PG_CONNECTION_URL | URL for connecting to the *production* databse. Setup for Postgres, but does not need to be Postgres |
+|pgDevUrl| process.env.PG_DEV_URL| URL for connecting to the development database. Does not need to be Postgres
+|secretKey| process.env.SECRET_KEY| Secret Key used for generating jwt
+|gmailName| process.env.GMAIL_NAME| Gmail username for sending OTP (does not need to be Gmail, any SMTP server will work.)
+|gmailPW| process.env.GMAIL_PW| Gmail password for sending OTP, see above.
+|sgApiKey| process.env.SG_API_KEY| SnedGrid API Key
+|sgPW| process.env.SG_PW| SendGrid password
+|sgUser| process.env.SG_USER| SendGrid username
+|optSecret| process.env.OPT_SECRET| Secret Key for generating the One Time Password (OTP)
+
+***
 ### user/ endpoints
 ***
 

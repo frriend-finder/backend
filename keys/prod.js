@@ -7,5 +7,6 @@ module.exports = {
     sgApiKey: process.env.SG_API_KEY,
     sgPW: process.env.SG_PW,
     sgUser: process.env.SG_USER,
-    optSecret: process.env.OPT_SECRET
+    optSecret: process.env.OPT_SECRET,
+    feApiKey: process.env.FE_API_KEY
 }

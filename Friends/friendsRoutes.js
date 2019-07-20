@@ -8,6 +8,7 @@ router.get('/', (req, res) => {
     res.status(200).send("<h1>Friend zone</h1>");
 });
 
+// get all friends for the user with :id
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -23,6 +24,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// add a new friend to a user, user and friend ids sent in the body
 router.post('/', async (req, res) => {
     const { user, friend } = req.body;
 
@@ -37,6 +39,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+// remove a friend from a user, user and friend ids sent in the body
 router.delete('/', async(req, res) => {
     const { user, friend } = req.body;
 

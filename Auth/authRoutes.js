@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
 const otpGen = require('otp-generator');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -10,24 +11,22 @@ const authDB = require('./authModel');
 const userDB = require('../Users/usersModel');
 const keys = require('../keys/keys');
 const emTemp = require('../helpers/authEmailTemplate');
-const tokenMaker = require('../helpers/authHelpers').generateToken;
+const tokenMaker = require('../helpers/authHelpers');
+
 
 router.post('/send', async (req, res) => {
 
     const { email } = req.body;
     const user_id = await userDB.getUserByEmail(email);
 
-    console.log("user_id", user_id);
-
-    //console.log(req.body);
     if(user_id <= 0) return res.status(404).json({ message: "User not found." });
 
-    //console.log(authDB.hasCode(user_id));
 
     if(await authDB.hasCode(user_id)) {
         return res.status(409).json({ message: "Code already sent." });
     }
 
+    // create a SendGrid transporter for sending the email
     const transporter = nodemailer.createTransport(
         sgTransport({
             auth: {
@@ -37,6 +36,7 @@ router.post('/send', async (req, res) => {
         })
     );
 
+    // generates a one time password with four digits
     let code = otpGen.generate(4, {
         digits: true,
         alphabets: false,
@@ -44,6 +44,7 @@ router.post('/send', async (req, res) => {
         specialChars: false
     });
 
+    // header options for OTP email
     const options = {
         to: email,
         from: "no-reply@nomore.buzz",
@@ -54,6 +55,8 @@ router.post('/send', async (req, res) => {
     try {
         code = bcrypt.hashSync(code, 15);
         await authDB.insertCode(user_id, code);
+
+
         transporter.sendMail(options, (err, resp) => {
             if (err) {
                 console.log("error", err);
@@ -62,9 +65,10 @@ router.post('/send', async (req, res) => {
             }
         })
 
-        res.status(200).json({message: "Code sent."});
+        res.status(201).json({message: "Code sent."});
     } catch(err) {
-        res.status(500).send("Nope: "+err);
+        console.log(err)
+        res.status(500).json({ message: "Something went wrong." });
     }
 });
 
@@ -74,23 +78,43 @@ router.post('/verify', async (req, res) => {
 
     try {
 
-        if (authDB.hasCode(user_id)) {
-            console.log(code, await authDB.getCode(user_id));
-            const validCode = bcrypt.compareSync(code, await authDB.getCode(user_id));
+        // verify there is a code and the code is not expired
+        if (await authDB.hasCode(user_id)) {
+            // validate the code is correct
+            const validCode = bcrypt.compareSync(code.toString(), await authDB.getCode(user_id));
 
-            if (validCode) {
-                return res.status(200).json({ token: tokenMaker(), user_id });
-            } else {
-                return res.status(404).json({ message: "Code is invalid or expired." });
-            }
+            if (validCode)
+                return res.status(200).json({ token: tokenMaker.generateToken(user_id), user_id });
+            else
+                return res.status(401).json({ message: "Code is invalid or expired." });
+
         } else {
-            return res.status(404).json({ message: "Code is invalid or expired." });
+            return res.status(401).json({ message: "Code is invalid or expired." });
         }
     } catch(err) {
         console.log(err);
         return res.status(500).json({ message: "Something went wrong." });
     }
 });
+
+router.post('/validate', async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        // decode the json web token to get the user id
+        const decoded = await jwt.verify(token, keys.secretKey);
+        const user = decoded["user"];
+
+        // return the user id if the token is valid
+        if (user) return res.status(200).json(user);
+        else
+            return res.status(403).json({ message: "Validation failed." });
+
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({ message: "Something went wrong." });
+    }
+})
 
 
 module.exports = router;

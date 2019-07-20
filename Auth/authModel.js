@@ -2,9 +2,16 @@ const db = require('../helpers/dbHelper');
 
 const expTime = 10 * 60000;
 
+/**
+ * helper method that inserts a auth code into the database
+ * @param user_id
+ * @param code
+ * @returns number of rows inserted
+ */
 const insertCode = async (user_id, code) => {
     const existingCode = await db('auth').where({ user_id });
 
+    // If the user had a code already, delete it and insert the new code
     if(Object.keys(existingCode).length > 0) {
         await db('auth').where({ user_id }).delete();
     }
@@ -16,19 +23,25 @@ const insertCode = async (user_id, code) => {
     return result;
 }
 
+/**
+ * Helper function that verifies a user has a valid code that is not expired
+ * @param user_id
+ * @returns {Promise<boolean>}
+ */
 const hasCode = async user_id => {
     console.log('checking for code...', user_id);
 
     try {
-        const timestamp = await db('auth').pluck('created_at').where({ user_id });
+        // get the created_at timestamp from the datbase and the current time
+        let timestamp = await db('auth').pluck('created_at').where({ user_id });
         const currentTime = new Date().getTime();
 
-        console.log("timestamp", timestamp);
-
         if(timestamp === undefined) return false;
-        if(currentTime - timestamp >= expTime) return false;
 
-        console.log('hasCode is true');
+        // convert timestamp to milliseconds and compare it to the current time to verify
+        // it is not expired
+        timestamp = new Date(timestamp).getTime();
+        if(currentTime - timestamp >= expTime) return false;
 
         return true;
     } catch(err) {

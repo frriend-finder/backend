@@ -5,6 +5,7 @@ const interestDB = require('./interestsModel');
 
 const { requireLogin } = require('../helpers/authHelpers');
 
+// Get a list of all interests. Returns an array of objects containing the name and id of each interest
 router.get('/', requireLogin, async (req, res) => {
     try {
         const interests = await interestDB.getInterests();
@@ -19,6 +20,7 @@ router.get('/', requireLogin, async (req, res) => {
     }
 });
 
+// Get the human readable name of an interest with :id
 router.get('/:id', requireLogin, async (req, res) => {
     const { id } = req.params;
 
@@ -28,13 +30,14 @@ router.get('/:id', requireLogin, async (req, res) => {
         if (interest.length > 0)
             return res.status(200).json(interest);
         else
-            return res.status(404).json({ message: "No interests found." });
+            return res.status(404).json({ message: "No interest found with this ID." });
     } catch(err) {
         console.log(err);
         return res.status(500).json({ message: "Something went wrong." });
     }
 });
 
+// Add a new interest to the database, interest name should be sent in the body. ID is auto generated.
 router.post('/', requireLogin, async (req, res) => {
    const interest = req.body;
 
@@ -51,6 +54,7 @@ router.post('/', requireLogin, async (req, res) => {
    }
 });
 
+// Get all interests for the user with :user_id. Returns an array of interest ids
 router.get('/user/:user_id', requireLogin, async (req, res) => {
     const { user_id } = req.params;
 
@@ -65,6 +69,7 @@ router.get('/user/:user_id', requireLogin, async (req, res) => {
     }
 });
 
+// Get all users who have :interest_id. Returns an array of user ids.
 router.get('/:interest_id/users', requireLogin, async (req, res) => {
     const { interest_id } = req.params;
 
@@ -79,7 +84,8 @@ router.get('/:interest_id/users', requireLogin, async (req, res) => {
     }
 });
 
-router.post('/user/', requireLogin, async (req, res) => {
+// Add an interest to a user. User id and interest id should be sent in the body of the request
+router.post('/user', requireLogin, async (req, res) => {
     const { interest, user } = req.body;
 
     try
@@ -96,7 +102,8 @@ router.post('/user/', requireLogin, async (req, res) => {
     }
 });
 
-router.delete('/user/', requireLogin, async (req, res) => {
+// Remove an interest from a yser. User id and interest id should be sent in the body of the request
+router.delete('/user', requireLogin, async (req, res) => {
    const { user, interest } = req.body;
 
     try {

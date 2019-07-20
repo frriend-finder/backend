@@ -1,3 +1,6 @@
+// This is the template for the email sent to the user containing their
+// one time password
+
 module.exports = code =>  `
     <!doctype html>
 <html>

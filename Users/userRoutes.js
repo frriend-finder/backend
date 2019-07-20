@@ -5,6 +5,7 @@ const router = express.Router();
 const userDB = require('./usersModel');
 const { requireLogin } = require('../helpers/authHelpers');
 
+// Get all users in the database
 router.get('/', requireLogin, async (req, res) => {
     try {
         const users = await userDB.getUsers();
@@ -21,6 +22,8 @@ router.get('/', requireLogin, async (req, res) => {
 
 });
 
+
+// Get the user with :id
 router.get('/:id', requireLogin, async (req, res) => {
     const { id } = req.params;
 
@@ -37,10 +40,14 @@ router.get('/:id', requireLogin, async (req, res) => {
     }
 });
 
+
+// Add a user to the database. User sent as object on the body of the request
 router.post('/', async (req, res) => {
     let baseUser = req.body;
+    // get the interests off of the body of the request
     let { interests } = req.body;
 
+    // Remove the interests from the baseUser object, as these are handled differently
     delete baseUser["interests"];
 
     try {
@@ -60,6 +67,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Remove a user from the database
 router.delete('/:id', requireLogin, async (req, res) => {
     let { id } = req.params;
     let result;
@@ -82,6 +90,7 @@ router.delete('/:id', requireLogin, async (req, res) => {
     }
 });
 
+// Update user data in databse
 router.put('/:id', requireLogin, async (req, res) => {
     let { id } = req.params;
     const user = req.body;

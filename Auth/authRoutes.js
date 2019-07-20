@@ -7,8 +7,10 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
+// database helpers
 const authDB = require('./authModel');
 const userDB = require('../Users/usersModel');
+
 const keys = require('../keys/keys');
 const emTemp = require('../helpers/authEmailTemplate');
 const tokenMaker = require('../helpers/authHelpers');

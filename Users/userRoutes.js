@@ -78,7 +78,7 @@ router.delete('/:id', requireLogin, async (req, res) => {
 
     try {
         id = Number(id);
-        result = userDB.deleteUserByID(id);
+        result = await userDB.deleteUserByID(id);
         if (result > 0)
             return res.status(200).json({ message: "User deleted." });
         else

@@ -36,7 +36,9 @@ const hasCode = async user_id => {
         let timestamp = await db('auth').pluck('created_at').where({ user_id });
         const currentTime = new Date().getTime();
 
-        if(timestamp === undefined) return false;
+        console.log(timestamp);
+
+        if(timestamp === undefined || timestamp.length === 0) return false;
 
         // convert timestamp to milliseconds and compare it to the current time to verify
         // it is not expired

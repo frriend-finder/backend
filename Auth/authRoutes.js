@@ -21,11 +21,17 @@ router.post('/send', async (req, res) => {
 
     try {
         const { email } = req.body;
-        const user_id = await userDB.getUserByEmail(email);
+        let user_id;
+
+        if (!email) return res.status(400).json({ message: "An email address must be sent in the body of the request."});
+
+
+        user_id = await userDB.getUserByEmail(email);
 
         if(!user_id || user_id <= 0) return res.status(404).json({ message: "User not found." });
 
 
+        // Check if a valid code was already sent
         if(await authDB.hasCode(user_id)) {
             return res.status(409).json({ message: "Code already sent." });
         }
@@ -52,7 +58,7 @@ router.post('/send', async (req, res) => {
         const options = {
             to: email,
             from: "no-reply@nomore.buzz",
-            subject: "Buzz No More Login Code",
+            subject: "Your Friend Finder login code is here!",
             html: emTemp(code)
         };
 
@@ -79,6 +85,8 @@ router.post('/send', async (req, res) => {
 // Verify the code provided by the user is correct and return a signed jwt and the user id, if so
 router.post('/verify', async (req, res) => {
     const { code, email } = req.body;
+
+    if (!email || !code) return res.status(400).json({ message: "Code and email must be sent in the body of the request." });
 
     try {
         const user_id = await userDB.getUserByEmail(email);

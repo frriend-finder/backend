@@ -23,8 +23,6 @@ router.post('/send', async (req, res) => {
         const { email } = req.body;
         const user_id = await userDB.getUserByEmail(email);
 
-        console.log(user_id);
-
         if(!user_id || user_id <= 0) return res.status(404).json({ message: "User not found." });
 
 

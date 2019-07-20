@@ -46,8 +46,6 @@ router.get('/:id', requireLogin, async (req, res) => {
 router.post('/', requireLogin, async (req, res) => {
    const { name } = req.body;
 
-   console.log(name);
-
    if(!name)
        return res.status(400).json({ message: "An interest name must be sent in the body of the request." });
 
@@ -66,7 +64,12 @@ router.post('/', requireLogin, async (req, res) => {
 
 // Get all interests for the user with :user_id. Returns an array of interest ids
 router.get('/user/:user_id', requireLogin, async (req, res) => {
-    const { user_id } = req.params;
+    let { user_id } = req.params;
+
+    user_id = Number(user_id);
+
+    if(!user_id)
+        return res.status(400).json({ message: "A user id must be included as a parameter in the request." });
 
     try
     {
@@ -81,7 +84,12 @@ router.get('/user/:user_id', requireLogin, async (req, res) => {
 
 // Get all users who have :interest_id. Returns an array of user ids.
 router.get('/:interest_id/users', requireLogin, async (req, res) => {
-    const { interest_id } = req.params;
+    let { interest_id } = req.params;
+
+    interest_id = Number(interest_id);
+
+    if(!interest_id)
+        return res.status(400).json({ message: "An interest id must be included as a paramter in the request." });
 
     try
     {
@@ -96,7 +104,13 @@ router.get('/:interest_id/users', requireLogin, async (req, res) => {
 
 // Add an interest to a user. User id and interest id should be sent in the body of the request
 router.post('/user', requireLogin, async (req, res) => {
-    const { interest, user } = req.body;
+    let { interest, user } = req.body;
+
+    interest = Number(interest);
+    user = Number(user);
+
+    if(!interest || !user)
+        return res.status(400).json({ message: "A user id and an interest id must be included in the body of the request." });
 
     try
     {
@@ -112,9 +126,15 @@ router.post('/user', requireLogin, async (req, res) => {
     }
 });
 
-// Remove an interest from a yser. User id and interest id should be sent in the body of the request
+// Remove an interest from a user. User id and interest id should be sent in the body of the request
 router.delete('/user', requireLogin, async (req, res) => {
-   const { user, interest } = req.body;
+   let { user, interest } = req.body;
+
+   user = Number(user);
+   interest = Number(interest);
+
+    if(!interest || !user)
+        return res.status(400).json({ message: "A user id and an interest id must be included in the body of the request." });
 
     try {
        const result = await interestDB.removeInterestFromUser(user, interest);

@@ -12,7 +12,14 @@ const addFriend = async (user_id, friend_id) => {
     return result;
 }
 
+const removeFriend = async (user_id, friend_id) => {
+    const result = await db('user_friends').where({ user_id, friend_id }).delete();
+
+    return result;
+}
+
 module.exports = {
     getFriends,
-    addFriend
+    addFriend,
+    removeFriend
 }

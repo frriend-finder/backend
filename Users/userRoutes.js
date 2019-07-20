@@ -97,6 +97,12 @@ router.put('/:id', requireLogin, async (req, res) => {
 
     id = Number(id);
 
+    if (!id)
+        return res.status(400).json({ message: "The id of the user to update must be included as a parameter in the request." });
+
+    if(Object.keys(user).length <= 0)
+        return res.status(400).json({ message: "An object containing the data to be updated must be included in the body of the request." });
+
     try {
         const result = await userDB.updateUser(id, user);
 

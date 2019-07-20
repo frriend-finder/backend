@@ -17,8 +17,7 @@ exports.seed = function(knex) {
               address:"4875 Jupiter Rd",
               city: "Dallas ",
               state:"Texas",
-              zip:"12547",
-              interests: [1, 3, 6]
+              zip:"12547"
           },
           {
               firstName: "John",
@@ -32,8 +31,7 @@ exports.seed = function(knex) {
               address:"New York",
               city: "123 New York St",
               state:"New York",
-              zip:"77777",
-              interests: [1, 3, 6]
+              zip:"77777"
           },
           {
               firstName: "Maria",
@@ -47,8 +45,7 @@ exports.seed = function(knex) {
               address:"555 Magnolia Dr",
               city: "Boston",
               state:"Massachusetts",
-              zip:"71234",
-              interests: [1, 3, 6]
+              zip:"71234"
           },
           {
               firstName: "Mark",
@@ -62,8 +59,7 @@ exports.seed = function(knex) {
               address:"7810 Old Town Rd",
               city: "San Fansico",
               state:"California",
-              zip:"45451",
-              interests: [1, 3, 6]
+              zip:"45451"
           }
       ]);
     });

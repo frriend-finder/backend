@@ -22,7 +22,12 @@ router.get('/', requireLogin, async (req, res) => {
 
 // Get the human readable name of an interest with :id
 router.get('/:id', requireLogin, async (req, res) => {
-    const { id } = req.params;
+    let { id } = req.params;
+
+    id = Number(id);
+
+    if(!id)
+        return res.status(400).json({ message: "An id number must be sent as a parameter." });
 
     try {
         const interest = await interestDB.getInterest(Number(id));
@@ -39,10 +44,15 @@ router.get('/:id', requireLogin, async (req, res) => {
 
 // Add a new interest to the database, interest name should be sent in the body. ID is auto generated.
 router.post('/', requireLogin, async (req, res) => {
-   const interest = req.body;
+   const { name } = req.body;
+
+   console.log(name);
+
+   if(!name)
+       return res.status(400).json({ message: "An interest name must be sent in the body of the request." });
 
    try {
-       const result = await interestDB.addInterest(interest);
+       const result = await interestDB.addInterest({ name });
 
        if (result > 0)
            return res.status(200).json({ message: "Interest inserted" });
@@ -92,7 +102,7 @@ router.post('/user', requireLogin, async (req, res) => {
     {
         const result = await interestDB.addInterestToUser(user, interest);
 
-        if (result)
+        if (result > 0)
             return res.status(200).json({ message: "Interest added." });
         else
             return res.status(400).json({ message: "Unable to add interest." });

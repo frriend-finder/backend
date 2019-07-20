@@ -96,4 +96,20 @@ router.post('/user/', requireLogin, async (req, res) => {
     }
 });
 
+router.delete('/user/', requireLogin, async (req, res) => {
+   const { user, interest } = req.body;
+
+    try {
+       const result = await interestDB.removeInterestFromUser(user, interest);
+
+       if (result)
+           return res.status(200).json({ message: "Interest removed from user." });
+       else
+           return res.status(400).json({ message: "Could not remove interest." });
+    } catch(err) {
+       console.log(err);
+       return res.status(500).json({ message: "Something went wrong." });
+    }
+});
+
 module.exports = router;

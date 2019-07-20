@@ -50,6 +50,11 @@ const hasCode = async user_id => {
     }
 }
 
+/**
+ * Helper function to retreive a user's auth code from the database
+ * @param user_id
+ * @returns the hashed code
+ */
 const getCode = async user_id => {
     const code = await db('auth').pluck('code').where({ user_id });
 

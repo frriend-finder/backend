@@ -54,7 +54,7 @@ const hasCode = async user_id => {
 }
 
 /**
- * Helper function to retreive a user's auth code from the database
+ * Helper function to retrieve a user's auth code from the database
  * @param user_id
  * @returns the hashed code
  */

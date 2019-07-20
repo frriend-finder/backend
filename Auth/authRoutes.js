@@ -7,52 +7,62 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
+// database helpers
 const authDB = require('./authModel');
 const userDB = require('../Users/usersModel');
+
 const keys = require('../keys/keys');
 const emTemp = require('../helpers/authEmailTemplate');
 const tokenMaker = require('../helpers/authHelpers');
 
-
+// Send a one time password code, via email, to the user, if they exist in the database.
+// Uses SendGrid and Gmail as SMTP server
 router.post('/send', async (req, res) => {
 
-    const { email } = req.body;
-    const user_id = await userDB.getUserByEmail(email);
-
-    if(user_id <= 0) return res.status(404).json({ message: "User not found." });
-
-
-    if(await authDB.hasCode(user_id)) {
-        return res.status(409).json({ message: "Code already sent." });
-    }
-
-    // create a SendGrid transporter for sending the email
-    const transporter = nodemailer.createTransport(
-        sgTransport({
-            auth: {
-                api_user: keys.sgUser,
-                api_key: keys.sgPW
-            }
-        })
-    );
-
-    // generates a one time password with four digits
-    let code = otpGen.generate(4, {
-        digits: true,
-        alphabets: false,
-        upperCase: false,
-        specialChars: false
-    });
-
-    // header options for OTP email
-    const options = {
-        to: email,
-        from: "no-reply@nomore.buzz",
-        subject: "Buzz No More Login Code",
-        html: emTemp(code)
-    };
-
     try {
+        const { email } = req.body;
+        let user_id;
+
+        if (!email) return res.status(400).json({ message: "An email address must be sent in the body of the request."});
+
+
+        user_id = await userDB.getUserByEmail(email);
+
+        if(!user_id || user_id <= 0) return res.status(404).json({ message: "User not found." });
+
+
+        // Check if a valid code was already sent
+        if(await authDB.hasCode(user_id)) {
+            return res.status(409).json({ message: "Code already sent." });
+        }
+
+        // create a SendGrid transporter for sending the email
+        const transporter = nodemailer.createTransport(
+            sgTransport({
+                auth: {
+                    api_user: keys.sgUser,
+                    api_key: keys.sgPW
+                }
+            })
+        );
+
+        // generates a one time password with four digits
+        let code = otpGen.generate(4, {
+            digits: true,
+            alphabets: false,
+            upperCase: false,
+            specialChars: false
+        });
+
+        // header options for OTP email
+        const options = {
+            to: email,
+            from: "no-reply@nomore.buzz",
+            subject: "Your Friend Finder login code is here!",
+            html: emTemp(code)
+        };
+
+
         code = bcrypt.hashSync(code, 15);
         await authDB.insertCode(user_id, code);
 
@@ -72,11 +82,14 @@ router.post('/send', async (req, res) => {
     }
 });
 
+// Verify the code provided by the user is correct and return a signed jwt and the user id, if so
 router.post('/verify', async (req, res) => {
     const { code, email } = req.body;
-    const user_id = await userDB.getUserByEmail(email);
+
+    if (!email || !code) return res.status(400).json({ message: "Code and email must be sent in the body of the request." });
 
     try {
+        const user_id = await userDB.getUserByEmail(email);
 
         // verify there is a code and the code is not expired
         if (await authDB.hasCode(user_id)) {
@@ -97,6 +110,7 @@ router.post('/verify', async (req, res) => {
     }
 });
 
+// Validate the jwt and return the user id if the token is valid
 router.post('/validate', async (req, res) => {
     const { token } = req.body;
 

@@ -76,6 +76,8 @@ const deleteUserByID = async id => {
             .where({ id })
             .delete();
 
+        console.log(result);
+
         return result;
     } catch(err) {
         console.log(`*** deleteUser failed to insert data ***

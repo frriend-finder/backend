@@ -114,6 +114,8 @@ router.post('/verify', async (req, res) => {
 router.post('/validate', async (req, res) => {
     const { token } = req.body;
 
+    if (!token) res.status(400).json({ message: "A token must be sent in the body of the request." });
+
     try {
         // decode the json web token to get the user id
         const decoded = await jwt.verify(token, keys.secretKey);

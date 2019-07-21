@@ -5,7 +5,7 @@ const db = require('../helpers/dbHelper');
  * @param _
  * @returns an array of objects with keys id and name for each interest
  */
-const getInterests = _ => {
+const getInterests = () => {
     return db('interests');
 }
 
@@ -26,10 +26,12 @@ const getInterest = id => {
  */
 const addInterest = async interest => {
     try {
-        const result = await db('interests').insert(interest);
+        const {rowCount} = await db('interests').insert(interest);
 
-        if (result > 0)
-            return result;
+        console.log(rowCount);
+
+        if (rowCount > 0)
+            return rowCount;
         else
             return -1;
     } catch(err) {
@@ -84,9 +86,9 @@ const getUsersWithInterest = async interest_id => {
  */
 const addInterestToUser = async (user_id, interest_id) => {
     try {
-        const result = await db('user_interests').insert({user_id, interest_id});
+        const { rowCount } = await db('user_interests').insert({user_id, interest_id});
 
-        return result;
+        return rowCount;
     } catch(err) {
         console.log(`*** addInterestToUser failed to insert data ***
             ${err}
@@ -104,6 +106,8 @@ const addInterestToUser = async (user_id, interest_id) => {
 const removeInterestFromUser = async (user_id, interest_id) => {
     try {
         const result = await db('user_interests').where({ user_id, interest_id }).delete();
+
+        console.log(result);
 
         return result;
     } catch(err) {

@@ -16,11 +16,9 @@ const insertCode = async (user_id, code) => {
         await db('auth').where({ user_id }).delete();
     }
 
-    console.log('user_id in insertCode', user_id);
+    const { rowCount } = await db('auth').insert({ user_id, code });
 
-    const result = await db('auth').insert({ user_id, code });
-
-    return result;
+    return rowCount;
 }
 
 /**
@@ -54,7 +52,7 @@ const hasCode = async user_id => {
 }
 
 /**
- * Helper function to retreive a user's auth code from the database
+ * Helper function to retrieve a user's auth code from the database
  * @param user_id
  * @returns the hashed code
  */

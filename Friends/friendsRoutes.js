@@ -1,6 +1,7 @@
 const express = require('express');
 
 const friendsDB = require('./friendsModel');
+const { requireLogin } = require('../helpers/authHelpers');
 
 const router = express.Router();
 
@@ -9,8 +10,13 @@ router.get('/', (req, res) => {
 });
 
 // get all friends for the user with :id
-router.get('/:id', async (req, res) => {
-    const { id } = req.params;
+router.get('/:id', requireLogin, async (req, res) => {
+    let { id } = req.params;
+
+    id = Number(id);
+
+    if (!id)
+        return res.status(400).json({ message: "An id number must be sent as a parameter." });
 
     try {
         const friends = await friendsDB.getFriends(id);
@@ -25,8 +31,15 @@ router.get('/:id', async (req, res) => {
 });
 
 // add a new friend to a user, user and friend ids sent in the body
-router.post('/', async (req, res) => {
-    const { user, friend } = req.body;
+router.post('/', requireLogin, async (req, res) => {
+    let { user, friend } = req.body;
+
+    user = Number(user);
+    friend = Number(friend);
+
+    if(!user || !friend)
+        return res.status(400).json({ message: "A user id and a friend id must be sent in the body of the request." });
+
 
     try {
         const result = await friendsDB.addFriend(user, friend);
@@ -40,8 +53,14 @@ router.post('/', async (req, res) => {
 });
 
 // remove a friend from a user, user and friend ids sent in the body
-router.delete('/', async(req, res) => {
-    const { user, friend } = req.body;
+router.delete('/', requireLogin, async(req, res) => {
+    let { user, friend } = req.body;
+
+    user = Number(user);
+    friend = Number(friend);
+
+    if(!user || !friend)
+        return res.status(400).json({ message: "A user id and a friend id must be sent in the body of the request." });
 
     try {
         const result = await friendsDB.removeFriend(user, friend);

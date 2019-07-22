@@ -18,9 +18,21 @@ const getFriends = async user_id => {
  * @returns number of rows inserted
  */
 const addFriend = async (user_id, friend_id) => {
-    const { rowCount } = await db('user_friends').insert({ user_id, friend_id});
+    try {
+        const existingConnection = await db('user_friends').pluck('user_id').where({ user_id, friend_id});
 
-    return rowCount;
+        console.log(existingConnection);
+
+        if (existingConnection.length === 0) {
+            const {rowCount} = await db('user_friends').insert({user_id, friend_id});
+
+            return rowCount;
+        } else
+            return -1;
+    } catch(err) {
+        console.log(err)
+        return -2;
+    }
 }
 
 /**

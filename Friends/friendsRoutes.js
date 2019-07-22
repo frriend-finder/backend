@@ -44,7 +44,8 @@ router.post('/', requireLogin, async (req, res) => {
     try {
         const result = await friendsDB.addFriend(user, friend);
 
-        if(result) return res.status(200).json({ message: "Friend added." });
+        if (result > 0) return res.status(200).json({ message: "Friend added." });
+        if (result === -1) return res.status(400).json({ message: "Users are already friends." });
         else return res.status(400).json({ message: "Could not add friend." });
     } catch(err) {
         console.log(err);

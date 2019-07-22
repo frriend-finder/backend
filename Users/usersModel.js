@@ -29,7 +29,7 @@ const getUserByID = async (id) => {
     let interests = await db('user_interests').pluck('interest_id').where( 'user_id', id );
 
     if (interests)
-        interests = await db('interests').pluck('name').whereIn('id', interests);
+        interests = await db('interests').whereIn('id', interests);
 
     return ({ ...user, interests });
 }

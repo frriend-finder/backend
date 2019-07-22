@@ -86,9 +86,14 @@ const getUsersWithInterest = async interest_id => {
  */
 const addInterestToUser = async (user_id, interest_id) => {
     try {
-        const { rowCount } = await db('user_interests').insert({user_id, interest_id});
+        const existingInterest = await db('user_interests').pluck(user_id).where({ user_id, interest_id });
 
-        return rowCount;
+        if (existingInterest.length == 0) {
+            const {rowCount} = await db('user_interests').insert({user_id, interest_id});
+
+            return rowCount;
+        } else
+            return -1;
     } catch(err) {
         console.log(`*** addInterestToUser failed to insert data ***
             ${err}

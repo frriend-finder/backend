@@ -220,6 +220,21 @@ Adds an interest to a user. The user and interest ids should be sent as an objec
         interest: 7
     }
     
+### DELETE interests/user
+
+Deletes an interest from a user. The user id and interest id should be sent in the body of the request on the `data` key.
+
+```
+    input
+    
+    {
+        data: {
+            user: 1,
+            interest: 3
+        }
+    }
+```
+    
 ***
 ### friends/ endpoints
 ***
@@ -268,23 +283,41 @@ Remove a friend from a user by sending the user's id and the friend's id to remo
  Returns a status of 200 if the code is sent successfully. Returns 404 if the user does not exist in the database.
  
     {
-        "email": "email@email.com"
+        email: "email@email.com"
     }
     
  ### POST auth/verify
  
  Verify the one time password the user provides. Email and code should be sent in the body of the request. If authentication is successful it returns status 200 and an object containing a jsonwebtoken and the user's id.
  
-#### input
+     input
 
     {
-        "email": "email@email.com",
-        "code": 1234
+        email: "email@email.com",
+        code: 1234
     }
+ ```
+    output
+
+    {
+        token: "<token>",
+        user_id: 4
+    }
+ ```
     
-#### output
+### POST auth/validate
 
+Validate a user's jsonwebtoken. Returns the user's id if token is valid. The token should be sent in the body of the request.
+
+```
+    input
+    
     {
-        "token": "<token>",
-        "user_id": 4
+        token: <token>
     }
+```
+```
+    output
+     
+    5
+```
